@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 var express = require("express");
 var router = express.Router();
 const { createUser, login } = require("./controller/userController");
@@ -7,6 +8,7 @@ const {
   checkIsUndefined,
   validateCreateData,
   validateLoginData,
+  jwtMiddleware,
 } = require("./lib/authMiddleware");
 
 /* GET users listing. */
@@ -22,5 +24,7 @@ router.post(
   createUser
 );
 router.post("/login", checkIsUndefined, checkIsEmpty, validateLoginData, login);
+
+router.post("/profile", jwtMiddleware);
 
 module.exports = router;

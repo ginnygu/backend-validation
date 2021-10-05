@@ -1,4 +1,6 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const User = require("../model/User");
 
 async function createUser(req, res) {
@@ -47,9 +49,16 @@ async function login(req, res) {
           error: "Please check your email and password",
         });
       } else {
-        return res.json({
-          message: "success",
-        });
+        let jwtToken = jwt.sign(
+          {
+            email: foundUser.email,
+            username: foundUser.username,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: "24h" }
+        );
+
+        res.json({ message: "success", payload: jwtToken });
       }
     }
   } catch (e) {
@@ -61,3 +70,12 @@ module.exports = {
   createUser,
   login,
 };
+
+//create a jsonwebtoken
+//use .env to protect your token secret
+//your token should have your email and username information
+
+//create a profile route
+//if the token is not valid you tell the user "invalid token, please contact support"
+//if the token is valid - response with "success" and the decoded data
+//use post request to achieve this
