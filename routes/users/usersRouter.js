@@ -1,7 +1,10 @@
-const jwt = require("jsonwebtoken");
 var express = require("express");
 var router = express.Router();
-const { createUser, login } = require("./controller/userController");
+const {
+  createUser,
+  login,
+  updateUser,
+} = require("./controller/userController");
 
 const {
   checkIsEmpty,
@@ -9,6 +12,7 @@ const {
   validateCreateData,
   validateLoginData,
   jwtMiddleware,
+  validateUpdateData,
 } = require("./lib/authMiddleware");
 
 /* GET users listing. */
@@ -25,6 +29,13 @@ router.post(
 );
 router.post("/login", checkIsUndefined, checkIsEmpty, validateLoginData, login);
 
-router.post("/profile", jwtMiddleware);
+router.put(
+  "/profile",
+  jwtMiddleware,
+  checkIsUndefined,
+  checkIsEmpty,
+  validateUpdateData,
+  updateUser
+);
 
 module.exports = router;

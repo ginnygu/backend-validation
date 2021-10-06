@@ -10,10 +10,15 @@ const {
 
 const { jwtMiddleware } = require("./shared/jwtMiddleware");
 
+const {
+  validateUpdateData,
+} = require("./authUpdateMiddleware/validateUpdateData");
+
 module.exports = {
   checkIsEmpty,
   checkIsUndefined,
   validateLoginData,
   validateCreateData,
   jwtMiddleware,
+  validateUpdateData,
 };
