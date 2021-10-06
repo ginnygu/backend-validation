@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../model/User");
+const errorHandler = require("../../utils/errorHandler/errorHandler");
 
 async function createUser(req, res) {
   const { firstName, lastName, username, email, password } = req.body;
@@ -22,7 +23,7 @@ async function createUser(req, res) {
 
     res.json({ message: "success", payload: savedUser });
   } catch (error) {
-    res.status(500).json({ message: "error", error: error.message });
+    res.status(500).json({ message: "error", error: errorHandler(error) });
   }
 }
 
@@ -78,11 +79,7 @@ async function updateUser(req, res) {
 
     const { password } = req.body;
 
-    let notDecodedToken = req.headers.authorization;
-
-    let slicedToken = notDecodedToken.slice(7);
-
-    let decodedToken = jwt.verify(slicedToken, process.env.JWT_SECRET);
+    const decodedData = res.locals.decodedData;
 
     let salt = await bcrypt.genSalt(10);
     let hashedPassword = await bcrypt.hash(password, salt);
@@ -90,7 +87,7 @@ async function updateUser(req, res) {
     req.body.password = hashedPassword;
 
     let updatedUser = await User.findOneAndUpdate(
-      { email: decodedToken.email },
+      { email: decodedData.email },
       req.body,
       { new: true }
     );
