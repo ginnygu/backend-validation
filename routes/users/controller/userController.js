@@ -4,6 +4,20 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 const errorHandler = require("../../utils/errorHandler/errorHandler");
 
+async function getUserInfo(req, res, next) {
+  try {
+    const decodedData = res.locals.decodedData;
+    const foundUser = await User.findOne({ email: decodedData.email }).populate(
+      "orderHistory",
+      "-orderOwner -__v"
+    );
+
+    res.json({ message: "success", payload: foundUser });
+  } catch (e) {
+    res.status(500).json({ message: "error", error: errorHandler(e) });
+  }
+}
+
 async function createUser(req, res) {
   const { firstName, lastName, username, email, password } = req.body;
 
@@ -105,4 +119,5 @@ module.exports = {
   createUser,
   login,
   updateUser,
+  getUserInfo,
 };

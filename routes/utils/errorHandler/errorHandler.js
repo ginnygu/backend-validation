@@ -1,6 +1,7 @@
 function parsedErrorMessage(err) {
   let output;
   try {
+    console.log(err);
     let objectKeys = Object.keys(err.keyPattern);
     let objectValue = Object.values(err.keyValue);
     output = `${objectKeys[0]} ${objectValue[0]} already exists`;
