@@ -9,6 +9,8 @@ var mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users/usersRouter");
 var orderRouter = require("./routes/order/orderRouter");
+var postRouter = require("./routes/post/postRouter");
+var commentRouter = require("./routes/comment/commentRouter");
 
 mongoose
   .connect(process.env.MONGO_DB)
@@ -29,6 +31,8 @@ app.use(cookieParser());
 app.use("/", indexRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/post", postRouter);
+app.use("/api/comment", commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

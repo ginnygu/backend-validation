@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     orderHistory: [{ type: mongoose.Schema.ObjectId, ref: "order" }],
+    postHistory: [{ type: mongoose.Schema.ObjectId, ref: "post" }],
+    commentHistory: [{ type: mongoose.Schema.ObjectId, ref: "comment" }],
   },
   {
     timestamps: true,
