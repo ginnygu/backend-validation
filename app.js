@@ -5,12 +5,14 @@ var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users/usersRouter");
 var orderRouter = require("./routes/order/orderRouter");
 var postRouter = require("./routes/post/postRouter");
 var commentRouter = require("./routes/comment/commentRouter");
+var movieRouter = require("./routes/movie/movieRouter");
 
 mongoose
   .connect(process.env.MONGO_DB)
@@ -23,6 +25,7 @@ mongoose
 
 var app = express();
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -33,6 +36,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/post", postRouter);
 app.use("/api/comment", commentRouter);
+app.use("/api/movie", movieRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

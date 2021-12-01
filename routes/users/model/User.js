@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
     orderHistory: [{ type: mongoose.Schema.ObjectId, ref: "order" }],
     postHistory: [{ type: mongoose.Schema.ObjectId, ref: "post" }],
     commentHistory: [{ type: mongoose.Schema.ObjectId, ref: "comment" }],
+    favoriteMovies: [{ type: mongoose.Schema.ObjectId, ref: "movie" }],
   },
   {
     timestamps: true,
